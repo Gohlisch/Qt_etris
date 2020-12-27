@@ -12,16 +12,15 @@ class GradientRasterWindow : public QWindow
     QBackingStore* backingStore_; // used to manage the window's back buffer for QPainter based graphics
     QGradient gradient_;
     QString text_ = QStringLiteral("Drücke eine Taste.");
+    Game* game_;
 
 public:
-    explicit GradientRasterWindow(QGradient gradient, QWindow* parent = 0);
+    explicit GradientRasterWindow(QGradient gradient, Game* game, QWindow* parent = 0);
 
     virtual void render(QPainter* painter);
-    void renderGame(const Game& game);
 public slots:
     void renderLater();
     void renderNow();
-    void updateText(const QString& text);
 
 protected:
     bool event(QEvent* event) override;

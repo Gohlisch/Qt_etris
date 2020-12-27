@@ -7,15 +7,15 @@
 
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
-    GradientRasterWindow window{QGradient::GlassWater};
 
     GameInputController* gameInputController = new GameInputController();
 
     KeyboardHandler globalKeyboardHandler{};
 
     Game game{gameInputController};
+    GradientRasterWindow window{QGradient::GlassWater, &game};
 
-    std::function<void(QKeyEvent*)> inputFunc = [&gameInputController, &window, &game](QKeyEvent* event) {
+    std::function<void(QKeyEvent*)> inputFunc = [&gameInputController](QKeyEvent* event) {
         if(event->key() == Qt::Key::Key_W) {
             gameInputController->rotate();
         } else if(event->key() == Qt::Key::Key_A) {
@@ -27,7 +27,6 @@ int main(int argc, char** argv) {
         } else if(event->key() == Qt::Key::Key_Space) {
             gameInputController->moveDownFast();
         }
-        window.renderGame(game);
     };
 
     globalKeyboardHandler.setCallback(inputFunc);
@@ -37,7 +36,7 @@ int main(int argc, char** argv) {
 
     window.show();
     //std::function<void()> render = [&window, &game](){ window.renderGame(game); };
-    game.setRenderFunc([&game](){ game.playingField().draw(); });
+    game.setRenderFunc([&window](){ window.renderLater(); });
     std::thread gameThread{&Game::start, std::ref(game)};
 
 
