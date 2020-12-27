@@ -1,12 +1,14 @@
 #include "gradient_raster_window.hpp"
 #include "playingfield.hpp"
 
+constexpr qreal BLOCK_SIZE = 20.0;
+
 GradientRasterWindow::GradientRasterWindow(QGradient gradient, Game* game, QWindow *parent)
     : QWindow{parent},
       backingStore_{new QBackingStore{this}},
       gradient_{gradient},
       game_{game} {
-    setGeometry(100, 100, 300, 200);
+    setGeometry(100, 100, BLOCK_SIZE*F_WIDTH, BLOCK_SIZE*F_HEIGHT);
 }
 
 void GradientRasterWindow::exposeEvent(QExposeEvent *) {
@@ -42,13 +44,12 @@ void GradientRasterWindow::renderNow() {
 
 void GradientRasterWindow::render(QPainter* painter) {
     const Field field = game_->playingField().field();
-    constexpr qreal blockSize = 20.0;
     const QColor occupied = QColor{"red"};
 
 
     for(int rows{}; rows < F_HEIGHT; ++rows) {
         for(int column{}; column < F_WIDTH; ++column) {
-            QRectF rectangle{0+blockSize*column, 0+blockSize*rows, blockSize, blockSize};
+            QRectF rectangle{0+BLOCK_SIZE*column, 0+BLOCK_SIZE*rows, BLOCK_SIZE, BLOCK_SIZE};
             if(field[rows][column]) {
                 painter->fillRect(rectangle, occupied);
             }
