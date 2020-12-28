@@ -2,6 +2,7 @@
 #include "playingfield.hpp"
 
 constexpr qreal BLOCK_SIZE = 20.0;
+constexpr char BLOCK_COLOR[] = "black";
 
 GradientRasterWindow::GradientRasterWindow(QGradient gradient, Game* game, QWindow *parent)
     : QWindow{parent},
@@ -44,8 +45,7 @@ void GradientRasterWindow::renderNow() {
 
 void GradientRasterWindow::render(QPainter* painter) {
     const Field field = game_->playingField().field();
-    const QColor occupied = QColor{"red"};
-
+    const QColor occupied{BLOCK_COLOR};
 
     for(int rows{}; rows < F_HEIGHT; ++rows) {
         for(int column{}; column < F_WIDTH; ++column) {

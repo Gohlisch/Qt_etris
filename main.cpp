@@ -13,7 +13,7 @@ int main(int argc, char** argv) {
     KeyboardHandler globalKeyboardHandler{};
 
     Game game{gameInputController};
-    GradientRasterWindow window{QGradient::GlassWater, &game};
+    GradientRasterWindow window{QGradient::FabledSunset, &game};
 
     std::function<void(QKeyEvent*)> inputFunc = [&gameInputController](QKeyEvent* event) {
         if(event->key() == Qt::Key::Key_W) {
@@ -33,13 +33,9 @@ int main(int argc, char** argv) {
 
     app.installEventFilter(&globalKeyboardHandler);
 
-
     window.show();
-    //std::function<void()> render = [&window, &game](){ window.renderGame(game); };
     game.setRenderFunc([&window](){ window.renderLater(); });
     std::thread gameThread{&Game::start, std::ref(game)};
-
-
-
+    gameThread.detach();
     return app.exec();
 }
