@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
     app.installEventFilter(&globalKeyboardHandler);
 
     window.show();
-    game.setRenderFunc([&window](){ window.renderLater(); });
+    game.setRenderFunc([&app, &window](){ app.postEvent(&window, new QEvent{QEvent::UpdateRequest}); });
     std::thread gameThread{&Game::start, std::ref(game)};
     gameThread.detach();
     return app.exec();
