@@ -8,8 +8,6 @@ Game::Game(InputController* inputController)
 
 void Game::start() {
     bool gameRunning {true};
-    char linesWithTetris {0};
-    steady_clock::time_point timeSinceLastAction;
     duration<double> turnDuration{};
 
     field_.dropPieceAndResetCords();
@@ -24,14 +22,12 @@ void Game::start() {
                 playerAction();
                 renderFunc_();
             } else {
-                timeSinceLastAction = steady_clock::now();
-                turnDuration = duration_cast<duration<double>>(timeSinceLastAction - timer_);
+                turnDuration = duration_cast<duration<double>>(steady_clock::now() - timer_);
                 usleep(1000);
             }
         }
 
-        linesWithTetris = field_.handleTetris();
-        if(linesWithTetris || !field_.tick()) {
+        if(field_.handleTetris() || !field_.tick()) {
             gameRunning = field_.dropPieceAndResetCords();
             renderFunc_();
         }
