@@ -5,6 +5,11 @@
 
 #include <QtGui>
 
+constexpr qreal BLOCK_SIZE = 20.0;
+constexpr int FLIELD_WIDTH = BLOCK_SIZE*F_WIDTH;
+constexpr int FIELD_HEIGHT = BLOCK_SIZE*F_HEIGHT;
+constexpr char BLOCK_COLOR[] = "black";
+
 class GradientRasterWindow : public QWindow
 {
     Q_OBJECT

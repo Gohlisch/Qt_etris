@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#define TOUCH_PLATTFORM
+#define TOUCH_PLATFORM // define KEYBOARD_PLATFORM or TOUCH_PLATFORM depending on target platformd
 
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
@@ -16,8 +16,8 @@ int main(int argc, char** argv) {
 
     game.setRenderFunc([&app, &window](){ app.postEvent(&window, new QEvent{QEvent::UpdateRequest}); });
 
-#ifdef KEYBOARD_PLATTFORM
-    KeyboardHandler globalKeyboardHandler{};
+#ifdef KEYBOARD_PLATFORM
+    KeyboardHandler inputHandler{};
     std::function<void(QKeyEvent*)> inputFunc = [&gameInputController](QKeyEvent* event) {
         if(event->key() == Qt::Key::Key_W) {
             gameInputController->rotate();
@@ -31,19 +31,18 @@ int main(int argc, char** argv) {
             gameInputController->moveDownFast();
         }
     };
-    globalKeyboardHandler.setCallback(inputFunc);
-    app.installEventFilter(&globalKeyboardHandler);
-#endif //KEYBOARD_PLATTFORM
+    inputHandler.setCallback(inputFunc);
+#endif //KEYBOARD_PLATFORM
 
-#ifdef TOUCH_PLATTFORM
-    TouchHandler globalTouchHandler{};
-    globalTouchHandler.setRightCallback([&gameInputController](auto){ gameInputController->moveRight(); });
-    globalTouchHandler.setLeftCallback([&gameInputController](auto){ gameInputController->moveLeft(); });
-    globalTouchHandler.setDownwardsCallback([&gameInputController](auto){ gameInputController->rotate(); });
-    globalTouchHandler.setUpwardsCallback([&gameInputController](auto){ gameInputController->moveDown(); });
-    app.installEventFilter(&globalTouchHandler);
-#endif //TOUCH_PLATTFORM
+#ifdef TOUCH_PLATFORM
+    TouchHandler inputHandler{};
+    inputHandler.setRightCallback([&gameInputController](auto){ gameInputController->moveRight(); });
+    inputHandler.setLeftCallback([&gameInputController](auto){ gameInputController->moveLeft(); });
+    inputHandler.setDownwardsCallback([&gameInputController](auto){ gameInputController->rotate(); });
+    inputHandler.setUpwardsCallback([&gameInputController](auto){ gameInputController->moveDown(); });
+#endif //TOUCH_PLATFORM
 
+    app.installEventFilter(&inputHandler);
 
     window.show();
     std::thread gameThread{&Game::start, std::ref(game)};
