@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include <unistd.h>
 
 Game::Game(InputController* inputController)
     : pressed_{PlayerAction::UNKNOWN},
@@ -23,7 +22,7 @@ void Game::start() {
                 renderFunc_();
             } else {
                 turnDuration = duration_cast<duration<double>>(steady_clock::now() - timer_);
-                usleep(1000);
+                std::this_thread::sleep_for(1us);
             }
         }
 
@@ -35,7 +34,7 @@ void Game::start() {
     renderFunc_();
 }
 
-void Game::setRenderFunc(std::function<void ()> func) {
+void Game::setRenderFunc(std::function<void()> func) {
     renderFunc_ = func;
 }
 

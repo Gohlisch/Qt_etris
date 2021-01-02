@@ -8,7 +8,7 @@ SOURCES += \
     tetrimino.cpp \
     main.cpp
 
-QT += core gui widgets gui 3dcore 3drender 3dinput 3dlogic 3dextras 3danimation
+QT += core gui widgets 3dcore 3drender 3dinput 3dlogic 3dextras 3danimation
 
 CONFIG += c++2a sdk_no_version_check
 

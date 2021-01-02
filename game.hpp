@@ -25,4 +25,28 @@ public:
     [[nodiscard]] const PlayingField& playingField() const;
 };
 
+/*! \class Game
+ *  \brief Connects all necessary components runs the games main loop
+ */
+
+/*! \fn Game::Game(InputController* inputController)
+ *  \brief Constructor of Game
+ *  @param inputController Pointer to the given Controller, from which
+ *         the last User
+ */
+
+/*! \fn void Game::start()
+ *  \brief start games main loop
+ *  \warning to provide visualizatipn provide a callback function using setRenderFunc
+ */
+
+/*! \fn void Game::setRenderFunc(std::function<void ()> func)
+ *  \brief set the function to request rendering
+ *  @param func a callback function, called after the state of Game has changed
+ */
+
+/*! \func const PlayingField& Game::playingField() const
+ *  \return the current state of the PlayingField, administrated by Game
+ */
+
 #endif // GAME_HPP

@@ -7,14 +7,13 @@
 
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
-
     GameInputController* gameInputController = new GameInputController();
-
-    KeyboardHandler globalKeyboardHandler{};
-
     Game game{gameInputController};
     GradientRasterWindow window{QGradient::FabledSunset, &game};
 
+    game.setRenderFunc([&app, &window](){ app.postEvent(&window, new QEvent{QEvent::UpdateRequest}); });
+
+    KeyboardHandler globalKeyboardHandler{};
     std::function<void(QKeyEvent*)> inputFunc = [&gameInputController](QKeyEvent* event) {
         if(event->key() == Qt::Key::Key_W) {
             gameInputController->rotate();
@@ -28,13 +27,10 @@ int main(int argc, char** argv) {
             gameInputController->moveDownFast();
         }
     };
-
     globalKeyboardHandler.setCallback(inputFunc);
-
     app.installEventFilter(&globalKeyboardHandler);
 
     window.show();
-    game.setRenderFunc([&app, &window](){ app.postEvent(&window, new QEvent{QEvent::UpdateRequest}); });
     std::thread gameThread{&Game::start, std::ref(game)};
     gameThread.detach();
     return app.exec();

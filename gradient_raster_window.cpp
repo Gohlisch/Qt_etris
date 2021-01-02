@@ -46,10 +46,13 @@ void GradientRasterWindow::renderNow() {
 void GradientRasterWindow::render(QPainter* painter) {
     const Field field = game_->playingField().field();
     const QColor occupied{BLOCK_COLOR};
+    const int centerLeftBorder = (width() - BLOCK_SIZE*F_WIDTH)/2;
+    const int centerUpperBorder = (height() - BLOCK_SIZE*F_HEIGHT)/2;
+
 
     for(int rows{}; rows < F_HEIGHT; ++rows) {
         for(int column{}; column < F_WIDTH; ++column) {
-            QRectF rectangle{0+BLOCK_SIZE*column, 0+BLOCK_SIZE*rows, BLOCK_SIZE, BLOCK_SIZE};
+            QRectF rectangle{centerLeftBorder+BLOCK_SIZE*column, centerUpperBorder+BLOCK_SIZE*rows, BLOCK_SIZE, BLOCK_SIZE};
             if(field[rows][column]) {
                 painter->fillRect(rectangle, occupied);
             }
