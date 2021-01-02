@@ -2,6 +2,8 @@
 #include "playingfield.hpp"
 
 constexpr qreal BLOCK_SIZE = 20.0;
+constexpr int FLIELD_WIDTH = BLOCK_SIZE*F_WIDTH;
+constexpr int FIELD_HEIGHT = BLOCK_SIZE*F_HEIGHT;
 constexpr char BLOCK_COLOR[] = "black";
 
 GradientRasterWindow::GradientRasterWindow(QGradient gradient, Game* game, QWindow *parent)
@@ -9,7 +11,7 @@ GradientRasterWindow::GradientRasterWindow(QGradient gradient, Game* game, QWind
       backingStore_{new QBackingStore{this}},
       gradient_{gradient},
       game_{game} {
-    setGeometry(100, 100, BLOCK_SIZE*F_WIDTH, BLOCK_SIZE*F_HEIGHT);
+    setGeometry(100, 100, FLIELD_WIDTH, FIELD_HEIGHT);
 }
 
 void GradientRasterWindow::exposeEvent(QExposeEvent *) {
@@ -25,20 +27,15 @@ void GradientRasterWindow::renderNow() {
 
     QRect rect(0, 0, width(), height());
     backingStore_->beginPaint(rect);
-
     QPaintDevice* device = backingStore_->paintDevice();
     QPainter painter{device};
 
     painter.fillRect(0, 0, width(), height(), gradient_);
-
     /****************************  original start  **********************************/
-
     render(&painter);
-
     /****************************   original end   **********************************/
 
     painter.end();
-
     backingStore_->endPaint();
     backingStore_->flush(rect); // flushes onto the screen
 }
@@ -46,9 +43,8 @@ void GradientRasterWindow::renderNow() {
 void GradientRasterWindow::render(QPainter* painter) {
     const Field field = game_->playingField().field();
     const QColor occupied{BLOCK_COLOR};
-    const int centerLeftBorder = (width() - BLOCK_SIZE*F_WIDTH)/2;
-    const int centerUpperBorder = (height() - BLOCK_SIZE*F_HEIGHT)/2;
-
+    const int centerLeftBorder = (width() - FLIELD_WIDTH)/2;
+    const int centerUpperBorder = (height() - FIELD_HEIGHT)/2;
 
     for(int rows{}; rows < F_HEIGHT; ++rows) {
         for(int column{}; column < F_WIDTH; ++column) {

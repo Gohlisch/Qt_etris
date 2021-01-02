@@ -2,8 +2,11 @@
 #include "game_input_controller.hpp"
 #include "gradient_raster_window.hpp"
 #include "keyboard_handler.hpp"
+#include "touch_handler.hpp"
 
 #include <iostream>
+
+#define TOUCH_PLATTFORM
 
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
@@ -13,6 +16,7 @@ int main(int argc, char** argv) {
 
     game.setRenderFunc([&app, &window](){ app.postEvent(&window, new QEvent{QEvent::UpdateRequest}); });
 
+#ifdef KEYBOARD_PLATTFORM
     KeyboardHandler globalKeyboardHandler{};
     std::function<void(QKeyEvent*)> inputFunc = [&gameInputController](QKeyEvent* event) {
         if(event->key() == Qt::Key::Key_W) {
@@ -29,6 +33,17 @@ int main(int argc, char** argv) {
     };
     globalKeyboardHandler.setCallback(inputFunc);
     app.installEventFilter(&globalKeyboardHandler);
+#endif //KEYBOARD_PLATTFORM
+
+#ifdef TOUCH_PLATTFORM
+    TouchHandler globalTouchHandler{};
+    globalTouchHandler.setRightCallback([&gameInputController](auto){ gameInputController->moveRight(); });
+    globalTouchHandler.setLeftCallback([&gameInputController](auto){ gameInputController->moveLeft(); });
+    globalTouchHandler.setDownwardsCallback([&gameInputController](auto){ gameInputController->rotate(); });
+    globalTouchHandler.setUpwardsCallback([&gameInputController](auto){ gameInputController->moveDown(); });
+    app.installEventFilter(&globalTouchHandler);
+#endif //TOUCH_PLATTFORM
+
 
     window.show();
     std::thread gameThread{&Game::start, std::ref(game)};

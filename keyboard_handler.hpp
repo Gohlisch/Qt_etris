@@ -17,8 +17,6 @@ public:
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
-signals:
-private:
 };
 
 #endif // KEYBOARDHANDLER_HPP

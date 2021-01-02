@@ -6,7 +6,8 @@ SOURCES += \
     playingfield.cpp \
     tetrimino_factory.cpp \
     tetrimino.cpp \
-    main.cpp
+    main.cpp \
+    touch_handler.cpp
 
 QT += core gui widgets 3dcore 3drender 3dinput 3dlogic 3dextras 3danimation
 
@@ -21,4 +22,5 @@ HEADERS += \
     player_action.hpp \
     playingfield.hpp \
     tetrimino_factory.hpp \
-    tetrimino.hpp
+    tetrimino.hpp \
+    touch_handler.hpp
