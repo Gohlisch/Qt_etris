@@ -29,6 +29,8 @@ int main(int argc, char** argv) {
             gameInputController->moveRight();
         } else if(event->key() == Qt::Key::Key_Space) {
             gameInputController->moveDownFast();
+        } else if(event->key() == Qt::Key::Key_Escape) {
+            gameInputController->pause();
         }
     };
     inputHandler.setCallback(inputFunc);
@@ -38,6 +40,7 @@ int main(int argc, char** argv) {
     TouchHandler inputHandler{};
     inputHandler.setRightCallback([&gameInputController](auto){ gameInputController->moveRight(); });
     inputHandler.setLeftCallback([&gameInputController](auto){ gameInputController->moveLeft(); });
+    inputHandler.setUpwardsCallback([&gameInputController](auto){ gameInputController->pause(); });
     inputHandler.setDownwardsCallback([&gameInputController](auto){ gameInputController->moveDown(); });
     inputHandler.setTapCallback([&gameInputController](auto){ gameInputController->rotate(); });
 #endif //TOUCH_PLATFORM

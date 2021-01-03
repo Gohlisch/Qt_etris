@@ -9,12 +9,14 @@ class GameInputController : public InputController {
 public:
     GameInputController();
 
-    [[nodiscard]] PlayerAction getUserInput() override;
+    [[nodiscard]] PlayerAction consumeInput() override;
+    [[nodiscard]] virtual PlayerAction peekInput() override;
     void rotate();
     void moveLeft();
     void moveRight();
     void moveDown();
     void moveDownFast();
+    void pause();
 };
 
 #endif // GAMEINPUTCONTROLLER_HPP

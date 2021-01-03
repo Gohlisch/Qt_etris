@@ -3,10 +3,15 @@
 GameInputController::GameInputController()
     : userInput_{PlayerAction::UNKNOWN} {}
 
-PlayerAction GameInputController::getUserInput() {
+PlayerAction GameInputController::consumeInput() {
     PlayerAction input = userInput_;
     userInput_ = PlayerAction::UNKNOWN;
     return input;
+}
+
+PlayerAction GameInputController::peekInput()
+{
+   return userInput_;
 }
 
 void GameInputController::rotate() {
@@ -27,4 +32,8 @@ void GameInputController::moveDown() {
 
 void GameInputController::moveDownFast() {
     userInput_ = PlayerAction::MOVE_DOWN_FAST;
+}
+
+void GameInputController::pause() {
+    userInput_ = PlayerAction::PAUSE;
 }

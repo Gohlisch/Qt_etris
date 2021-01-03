@@ -16,7 +16,7 @@ void Game::start() {
         timer_ = steady_clock::now();
 
         while(turnDuration<1s){
-            pressed_ = inputController_->getUserInput();
+            pressed_ = inputController_->consumeInput();
             if(pressed_ != PlayerAction::UNKNOWN) {
                 playerAction();
                 renderFunc_();
@@ -52,6 +52,13 @@ bool Game::playerAction() {
     else if(pressed_ == PlayerAction::MOVE_DOWN) { success = field_.tick(); }
     else if(pressed_ == PlayerAction::MOVE_DOWN_FAST) {
         while(field_.tick());
+        success = true;
+    } else if(pressed_ == PlayerAction::PAUSE) {
+        PlayerAction resume;
+        do {
+            std::this_thread::sleep_for(1s);
+            resume = inputController_->consumeInput();
+        } while(resume==PlayerAction::UNKNOWN || resume==PlayerAction::PAUSE); // double check due to race condition
         success = true;
     }
 
