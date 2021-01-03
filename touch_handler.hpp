@@ -12,8 +12,8 @@ class TouchHandler : public QObject
 {
     Q_OBJECT
     QPointF lastTouchPoint_;
-    qreal minHorizontalDrag_ = BLOCK_SIZE; // TODO: set according to device
-    qreal minVerticalDrag_ = BLOCK_SIZE/2; // TODO: set according to device
+    qreal minHorizontalDrag_ = BLOCK_SIZE/1.2; // TODO: set according to device
+    qreal minVerticalDrag_ = BLOCK_SIZE/2.5; // TODO: set according to device
     TouchCallbackFunc rightCallback_ = [](auto){};
     TouchCallbackFunc leftCallback_ = [](auto){};
     TouchCallbackFunc upwardsCallback_ = [](auto){};

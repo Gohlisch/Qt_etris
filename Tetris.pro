@@ -13,6 +13,9 @@ QT += core gui widgets 3dcore 3drender 3dinput 3dlogic 3dextras 3danimation
 
 CONFIG += c++2a sdk_no_version_check
 
+QMAKE_TARGET_BUNDLE_PREFIX = ch.gohlis
+QMAKE_IOS_DEPLOYMENT_TARGET = 14.2
+
 HEADERS += \
     game.hpp \
     game_input_controller.hpp \

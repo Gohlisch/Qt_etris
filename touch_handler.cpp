@@ -7,7 +7,6 @@ bool TouchHandler::eventFilter(QObject* object, QEvent* event) {
     if(event->type() == QEvent::TouchBegin) {
         QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
         lastTouchPoint_ = touchEvent->touchPoints().last().pos();
-        return true;
     } else if(event->type() == QEvent::TouchUpdate) {
         QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
         QPointF touchPoint = touchEvent->touchPoints().last().pos(); // TODO: Copy only if necessary, use reference
@@ -35,4 +34,6 @@ bool TouchHandler::eventFilter(QObject* object, QEvent* event) {
         // standard event processing
         return QObject::eventFilter(object, event);
     }
+
+    return true;
 }

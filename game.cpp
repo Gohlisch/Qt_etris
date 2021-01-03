@@ -22,7 +22,7 @@ void Game::start() {
                 renderFunc_();
             } else {
                 turnDuration = duration_cast<duration<double>>(steady_clock::now() - timer_);
-                std::this_thread::sleep_for(1us);
+                std::this_thread::sleep_for(15ms);
             }
         }
 

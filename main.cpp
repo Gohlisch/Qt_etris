@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-#define KEYBOARD_PLATFORM // define KEYBOARD_PLATFORM or TOUCH_PLATFORM depending on target platformd
+#define TOUCH_PLATFORM // define KEYBOARD_PLATFORM or TOUCH_PLATFORM depending on target platformd
 
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
