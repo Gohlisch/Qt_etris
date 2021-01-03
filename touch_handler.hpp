@@ -18,6 +18,7 @@ class TouchHandler : public QObject
     TouchCallbackFunc leftCallback_ = [](auto){};
     TouchCallbackFunc upwardsCallback_ = [](auto){};
     TouchCallbackFunc downwardsCallback_ = [](auto){};
+    TouchCallbackFunc tapCallback_ = [](auto){};
 
 public:
     explicit TouchHandler(QObject* parent = 0);
@@ -25,6 +26,7 @@ public:
     void setLeftCallback(TouchCallbackFunc func) { leftCallback_ = func; }
     void setUpwardsCallback(TouchCallbackFunc func) { upwardsCallback_ = func; }
     void setDownwardsCallback(TouchCallbackFunc func) { downwardsCallback_ = func; }
+    void setTapCallback(TouchCallbackFunc func) { tapCallback_ = func; }
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;

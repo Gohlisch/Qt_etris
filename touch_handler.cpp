@@ -17,14 +17,20 @@ bool TouchHandler::eventFilter(QObject* object, QEvent* event) {
         } else if(touchPoint.x() <= lastTouchPoint_.x()-minHorizontalDrag_) {
             leftCallback_(touchEvent);
             lastTouchPoint_ = touchPoint;
-        } else if(touchPoint.y() >= lastTouchPoint_.y()+minVerticalDrag_) {
+        } else if(touchPoint.y() <= lastTouchPoint_.y()-minVerticalDrag_) {
             upwardsCallback_(touchEvent);
             lastTouchPoint_ = touchPoint;
-        } else if(touchPoint.y() <= lastTouchPoint_.y()-minVerticalDrag_) {
+        } else if(touchPoint.y() >= lastTouchPoint_.y()+minVerticalDrag_) {
             downwardsCallback_(touchEvent);
             lastTouchPoint_ = touchPoint;
         }
         return true;
+    } else if (event->type() == QEvent::TouchEnd) {
+        QTouchEvent* touchEvent = static_cast<QTouchEvent*>(event);
+        QPointF touchPoint = touchEvent->touchPoints().last().pos();
+        if(touchPoint.x()==lastTouchPoint_.x() && touchPoint.y()==lastTouchPoint_.y()) {
+            tapCallback_(touchEvent);
+        }
     } else {
         // standard event processing
         return QObject::eventFilter(object, event);

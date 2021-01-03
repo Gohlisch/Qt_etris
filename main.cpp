@@ -38,8 +38,8 @@ int main(int argc, char** argv) {
     TouchHandler inputHandler{};
     inputHandler.setRightCallback([&gameInputController](auto){ gameInputController->moveRight(); });
     inputHandler.setLeftCallback([&gameInputController](auto){ gameInputController->moveLeft(); });
-    inputHandler.setDownwardsCallback([&gameInputController](auto){ gameInputController->rotate(); });
-    inputHandler.setUpwardsCallback([&gameInputController](auto){ gameInputController->moveDown(); });
+    inputHandler.setDownwardsCallback([&gameInputController](auto){ gameInputController->moveDown(); });
+    inputHandler.setTapCallback([&gameInputController](auto){ gameInputController->rotate(); });
 #endif //TOUCH_PLATFORM
 
     app.installEventFilter(&inputHandler);
