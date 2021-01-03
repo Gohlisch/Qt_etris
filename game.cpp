@@ -6,7 +6,7 @@ Game::Game(InputController* inputController)
       inputController_{inputController} { }
 
 void Game::start() {
-    bool gameRunning {true};
+    bool gameRunning{true};
     duration<double> turnDuration{};
 
     field_.dropPieceAndResetCords();
@@ -26,7 +26,8 @@ void Game::start() {
             }
         }
 
-        if(field_.handleTetris() || !field_.tick()) {
+        if(!field_.tick()) {
+            field_.handleTetris();
             gameRunning = field_.dropPieceAndResetCords();
             renderFunc_();
         }
